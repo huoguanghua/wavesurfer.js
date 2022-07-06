@@ -522,7 +522,7 @@ export default class TimelinePlugin {
 
                 if (xOffset + canvasWidth > x && context) {
                     textWidth = context.measureText(text).width;
-                    context.fillText(text, x - xOffset, this.params.topMode ? y : 20);
+                    context.fillText(text, x - xOffset, this.params.topMode ? y : 10 * this.wavesurfer.params.pixelRatio);
                 }
 
                 xOffset += canvasWidth;
