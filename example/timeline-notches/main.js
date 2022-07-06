@@ -37,6 +37,19 @@ function formatTimeCallback(seconds, pxPerSec) {
         return `${minutes}:${secondsStr}`;
     }
     return secondsStr;
+
+    // const seconds = milliseconds / 1000;
+    // return [
+    //     ("00" + Math.floor(seconds / 60)).slice(-2), // minutes
+    //     ("00" + Math.floor(seconds % 60)).slice(-2) // seconds
+    // ].join(":");
+}
+
+function formetTime(seconds) {
+    return [
+        ("00" + Math.floor(seconds / 60)).slice(-2), // minutes
+        ("00" + Math.floor(seconds % 60)).slice(-2) // seconds
+    ].join(":");
 }
 
 /**
@@ -156,30 +169,73 @@ document.addEventListener('DOMContentLoaded', function() {
                 primaryColor: 'blue',
                 secondaryColor: 'red',
                 primaryFontColor: 'blue',
-                secondaryFontColor: 'red'
+                secondaryFontColor: 'red',
+                notchPercentHeight: 30,
+                topMode: false
             })
         ]
     });
 
     // Load audio from URL
-    wavesurfer.load('../media/demo.wav');
+    // wavesurfer.load('../media/demo.wav');
+    // wavesurfer.load('https://audios.muzhiyun.cn/Media/2022/a60c78e3-6385-45a9-a6fe-fc1286547f5c.mp3');
+    // wavesurfer.load('../media/ted/ElonMuskExtendedInterview_2022_VO_Intro.mp3'); // 26分钟
+    wavesurfer.load('../media/ted/WorkLifeS005_Perfectionism_2022V_VO_Intro.mp3'); // 42分钟
 
     wavesurfer.on('error', function(e) {
         console.warn(e);
     });
 
     // Zoom slider
-    let slider = document.querySelector('[data-action="zoom"]');
+    // let slider = document.querySelector('[data-action="zoom"]');
 
-    slider.value = wavesurfer.params.minPxPerSec;
-    slider.min = wavesurfer.params.minPxPerSec;
+    // slider.value = wavesurfer.params.minPxPerSec;
+    // slider.min = wavesurfer.params.minPxPerSec;
 
-    slider.addEventListener('input', function() {
-        wavesurfer.zoom(Number(this.value));
-    });
+    // slider.addEventListener('input', function() {
+    //     wavesurfer.zoom(Number(this.value));
+    // });
 
     // Play button
     let button = document.querySelector('[data-action="play"]');
 
+    let btns = document.getElementsByClassName('zoomBtn');
+    for (const btn of btns) {
+        btn.addEventListener('click', e => {
+            console.log('will zoom:', e.target.dataset.zoom);
+            wavesurfer.zoom(Number(e.target.dataset.zoom));
+        });
+    }
+
     button.addEventListener('click', wavesurfer.playPause.bind(wavesurfer));
+
+    let testBtn = document.getElementById("testBtn");
+    testBtn.addEventListener('click', () => {
+        console.log(`duration:${wavesurfer.getDuration()} ${formetTime(wavesurfer.getDuration())} `);
+    });
+
+
+    wavesurfer.on('audioprocess', () => {
+
+    });
+
+    wavesurfer.on('loading', (progress) => {
+        console.log('loading:', progress);
+    });
+
+    wavesurfer.on('ready', () => {
+        console.log('ready');
+    });
+
+    wavesurfer.on('finish', () => {
+        console.log('finish');
+    });
+
+    wavesurfer.on('waveform-ready', () => {
+        console.log('waveform-ready:');
+    });
+
+    wavesurfer.on('zoom', (minPxPerSec) => {
+        console.log('zoom:', minPxPerSec);
+    });
 });

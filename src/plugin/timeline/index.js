@@ -30,6 +30,7 @@
  * negative.
  * @property {?boolean} deferInit Set to true to manually call
  * `initPlugin('timeline')`
+ * @property {?boolean} topMode time at top or bottom, default is true
  */
 
 /**
@@ -153,7 +154,8 @@ export default class TimelinePlugin {
                 timeInterval: this.defaultTimeInterval,
                 primaryLabelInterval: this.defaultPrimaryLabelInterval,
                 secondaryLabelInterval: this.defaultSecondaryLabelInterval,
-                offset: 0
+                offset: 0,
+                topMode: true
             },
             params
         );
@@ -427,7 +429,7 @@ export default class TimelinePlugin {
                 i % secondaryLabelInterval !== 0 &&
                 i % primaryLabelInterval !== 0
             ) {
-                this.fillRect(curPixel, 0, 1, height2);
+                this.params.topMode ? this.fillRect(curPixel, 0, 1, height2) : this.fillRect(curPixel, height1 - height2, 1, height1);
             }
         });
     }
@@ -520,7 +522,7 @@ export default class TimelinePlugin {
 
                 if (xOffset + canvasWidth > x && context) {
                     textWidth = context.measureText(text).width;
-                    context.fillText(text, x - xOffset, y);
+                    context.fillText(text, x - xOffset, this.params.topMode ? y : 20);
                 }
 
                 xOffset += canvasWidth;
