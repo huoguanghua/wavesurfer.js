@@ -18,7 +18,7 @@ var wavesurfer;
  * @param: pxPerSec
  */
 function formatTimeCallback(seconds, pxPerSec) {
-    console.log(`seconds:${seconds} pxPerSec:${pxPerSec}`);
+    // console.log(`seconds:${seconds} pxPerSec:${pxPerSec}`);
     seconds = Number(seconds);
     // let minutes = Math.floor(seconds / 60);
     // seconds = seconds % 60;
@@ -144,10 +144,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Init
     wavesurfer = WaveSurfer.create({
         container: document.querySelector('#waveform'),
+        backgroundColor: 'white',
         waveColor: '#A8DBA8',
         progressColor: '#3B8686',
         backend: 'MediaElement',
         minPxPerSec: 1,
+        partialRender: false,
         plugins: [
             // WaveSurfer.regions.create({
             //     regions: [
@@ -183,8 +185,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // wavesurfer.load('../media/demo.wav');
     // wavesurfer.load('https://audios.muzhiyun.cn/Media/2022/a60c78e3-6385-45a9-a6fe-fc1286547f5c.mp3');
     // wavesurfer.load('../media/ted/ElonMuskExtendedInterview_2022_VO_Intro.mp3'); // 26分钟
-    // wavesurfer.load('../media/ted/WorkLifeS005_Perfectionism_2022V_VO_Intro.mp3'); // 42分钟
-    wavesurfer.load('../media/480803359.mp3');
+    wavesurfer.load('../media/ted/WorkLifeS005_Perfectionism_2022V_VO_Intro.mp3'); // 42分钟
+    // wavesurfer.load('../media/480803359.mp3');
 
     wavesurfer.on('error', function(e) {
         console.warn(e);
@@ -239,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('waveform-ready:');
     });
 
-    wavesurfer.on('zoom', (minPxPerSec) => {
-        console.log('zoom:', minPxPerSec);
-    });
+    // wavesurfer.on('zoom', (minPxPerSec) => {
+    //     console.log('zoom:', minPxPerSec);
+    // });
 });
